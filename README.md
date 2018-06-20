@@ -26,8 +26,16 @@ I use port forwardning and DuckDNS for remote access to home assistant and using
 
 The Home Assistant docs are really good for this - [https://www.home-assistant.io/docs/configuration/remote/](https://www.home-assistant.io/docs/configuration/remote/)
 
+## Addons
+I make use of a few of the [official addons](https://home-assistant.io/addons) and the [community addons](https://github.com/hassio-addons/repository)
+
+* Samba share
+* Duck DNS
+* Configurator
+* AirCast
+
 ## My Front End
-[MY Front End](https://raw.githubusercontent.com/MDHayes/home-assistant-config/master/Home%20Assistant%20UI.png)
+![My Front End](https://raw.githubusercontent.com/MDHayes/home-assistant-config/master/Home%20Assistant%20UI.png)
 
 
 
