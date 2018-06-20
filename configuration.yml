@@ -1,0 +1,159 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 55
+  longitude: -4
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 22
+  unit_system: metric
+  time_zone: Europe/London
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: PASSWORD
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  base_url: BASE_URL
+  ssl_certificate: /path/to/fullchain.pem
+  ssl_key: /path/to/privkey.pem
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Weather prediction & Speedtest
+sensor:
+  - platform: yr
+    name: Weather
+  - platform: speedtest
+    monitored_conditions:
+     - ping
+     - download
+     - upload
+  - platform: google_travel_time
+    name: Home to RookieOven
+    api_key: GOOGLE_MAPS_API_KEY
+    origin: HOME_ADDRESS
+    destination: RookieOven, Glasgow
+  - platform: google_travel_time
+    name: Home to Wife's Work
+    api_key: GOOGLE_MAPS_API_KEY
+    origin: HOME_ADDRESS
+    destination: WIFES_WORK
+  - platform: google_travel_time
+    name: Michael time home
+    api_key: GOOGLE_MAPS_API_KEY
+    origin: device_tracker.iphone
+    destination: HOME_ADDRESS
+  - platform: google_travel_time
+    name: Wife time home
+    api_key: GOOGLE_MAPS_API_KEY
+    origin: device_tracker.wife_iphone
+    destination: HOME_ADDRESS
+  - platform: uber
+    start_latitude: 55
+    start_longitude: -4
+    server_token: UBER_TOKEN
+
+# Text to speech
+tts:
+  - platform: google
+
+# Nest thermostat
+nest:
+  client_id: NEST_CLIENT_ID
+  client_secret: NEST_SECRET
+
+ios:
+
+## With filter to hide things from HomeKit
+homekit:
+ filter:
+    exclude_entities:
+      - binary_sensor.hallway_thermostat_fan
+      - binary_sensor.hallway_thermostat_has_leaf
+      - group.all_lights
+      - binary_sensor.hallway_thermostat_is_locked
+      - sensor.hallway_thermostat_humidity
+      - sensor.hallway_thermostat_target
+      - light.cinema_room
+      - light.cinema_room_2
+      - light.porch
+      - light.office
+      - light.living_room_1
+      - light.living_room_2
+      - binary_sensor.living_room_camera_motion_detected
+      - light.make_up_room
+      - light.lamp
+      - light.living_room
+      - light.make_up
+      - binary_sensor.home_away
+      - binary_sensor.hallway_thermostat_is_using_emergency_heat
+      - sensor.hallway_thermostat_temperature
+      - binary_sensor.living_room_camera_motion_detected
+      - binary_sensor.living_room_camera_person_detected
+      - binary_sensor.living_room_camera_sound_detected
+      - light.office_2
+      - light.porch_2
+      - binary_sensor.hallway_thermostat_online
+      - binary_sensor.living_room_camera_online
+      - device_tracker.iphone
+      - device_tracker.wife_iphone
+
+switch:
+  - platform: tplink
+    host: PLUG_IP_ADDRESS
+
+group:
+  travel:
+    name: Driving Times
+    entities:
+      - sensor.home_to_rookieoven
+      - sensor.home_to_wife_work
+      - sensor.michael_time_home
+      - sensor.wife_time_home
+      - sensor.uberx_time
+  phone:
+    name: Phone State
+    entities:
+      - sensor.iphone_battery_level
+      - sensor.iphone_battery_state
+      - sensor.wife_iphone_battery_level
+      - sensor.wife_iphone_battery_state
+  speed:
+    name: Connection Speed
+    entities:
+      - sensor.speedtest_download
+      - sensor.speedtest_upload
+      - sensor.speedtest_ping
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+panel_iframe:
+  configurator:
+    title: Edit Config
+    icon: mdi:wrench
+    url: https://hassio.local:3218
